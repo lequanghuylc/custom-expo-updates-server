@@ -99,5 +99,8 @@ echo "Uploading Android update..."
 curl "${common_args[@]}" -F "platform=android" | cat
 echo ""
 
+echo "Cleaning up zip ${ZIP_NAME}..."
+rm -f "${ZIP_NAME}"
+
 echo "Done."
 

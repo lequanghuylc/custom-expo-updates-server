@@ -76,11 +76,9 @@ export async function handleManifestForSlug(req: NextApiRequest, res: NextApiRes
 
       await putUpdateInfoInResponseAsync(req, res, info, protocolVersion, {
         assetUrlForRelPath: (relPath) =>
-          `${hostname.replace(/\/+$/, '')}/api/${encodeURIComponent(
-            slug,
-          )}/assets?asset=${encodeURIComponent(
+          `${hostname.replace(/\/+$/, '')}/api/local-files/${encodeURIComponent(
             `${info.relativePrefix}/${relPath}`,
-          )}&runtimeVersion=${encodeURIComponent(runtimeVersion)}&platform=${encodeURIComponent(platform)}`,
+          )}`,
       });
       return;
     }
