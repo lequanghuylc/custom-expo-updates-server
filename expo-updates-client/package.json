@@ -6,7 +6,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "push": "./scripts/push.sh --token \"${UPLOAD_TOKEN:-}\" --channel \"${UPDATE_CHANNEL:-default}\""
   },
   "dependencies": {
     "expo": "^54.0.0",
