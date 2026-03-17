@@ -60,7 +60,7 @@ Copy `expo-updates-server/.env.sample` to `expo-updates-server/.env.local`.
   - **`ARTIFACT_MODE=s3`**: store updates in S3 and serve assets via `S3_PUBLIC_BASE_URL`
 
 - **Local artifact mode**
-  - **`HOSTNAME`**: base URL used to construct asset URLs (served from `GET /api/assets`)
+  - **`PUBLIC_BASE_URL`**: base URL used to construct asset URLs (served from `GET /api/local-files/...`)
   - **`ARTIFACTS_DIR`**: root directory for artifacts (e.g. `/var/lib/expo-updates` mounted as a volume)
 
 - **S3 artifact mode**
@@ -111,7 +111,7 @@ This flow is the same as S3 publishing from the app repo, but the server stores 
 1. Set in the server env:
    - `ARTIFACT_MODE=local`
    - `ARTIFACTS_DIR=/your/mounted/volume/path`
-   - `HOSTNAME=https://your-server.com`
+   - `PUBLIC_BASE_URL=https://your-server.com`
 2. Start the server.
 3. From `expo-updates-client/`, run:
    - `./scripts/push.sh --token "$UPLOAD_TOKEN" --channel main`

@@ -2,6 +2,7 @@ import FormData from 'form-data';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { serializeDictionary } from 'structured-headers';
 
+import { getPublicBaseUrl } from '../../../common/publicBaseUrl';
 import {
   convertToDictionaryItemsRepresentation,
   signRSASHA256,
@@ -71,12 +72,11 @@ export async function handleManifestForSlug(req: NextApiRequest, res: NextApiRes
     if (mode === 'local' && process.env.ARTIFACTS_DIR) {
       const pointer = await getLatestPointerFromLocal(slug, runtimeVersion, channel, platform);
       const info = await getUpdateInfoFromLocal(pointer.relativePrefix);
-      const hostname = process.env.HOSTNAME;
-      if (!hostname) throw new Error('Missing HOSTNAME');
+      const baseUrl = getPublicBaseUrl();
 
       await putUpdateInfoInResponseAsync(req, res, info, protocolVersion, {
         assetUrlForRelPath: (relPath) =>
-          `${hostname.replace(/\/+$/, '')}/api/local-files/${encodeURIComponent(
+          `${baseUrl}/api/local-files/${encodeURIComponent(
             `${info.relativePrefix}/${relPath}`,
           )}`,
       });

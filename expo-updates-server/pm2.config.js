@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: "personify-micro-apis",
+        name: "expo-updates-server",
         script: "npm",
         args: "start",
         watch: false,
