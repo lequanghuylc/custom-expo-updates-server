@@ -1,15 +1,10 @@
 # Custom Expo Updates Server & Client
 
-This repo contains a server and client that implement the [Expo Updates protocol specification](https://docs.expo.dev/technical-specs/expo-updates-0).
-
-> [!IMPORTANT]
-> This repo exists to provide a basic demonstration of how the protocol might be translated to code. It is not guaranteed to be complete, stable, or performant enough to use as a full-fledged backend for expo-updates. Expo does not provide hands-on technical support for custom expo-updates server implementations, including what is in this repo. Issues within the expo-updates client library itself (independent of server) may be reported at https://github.com/expo/expo/issues/new/choose. Any pull requests that add new features to this repository will likely be closed; instead, feel free to fork the repository to add new features.
+This is a fork of [original repo: expo/custom-expo-updates-server](https://github.com/expo/custom-expo-updates-server) with custom code added to turn basic demonstration into production ready solution
 
 ## Why
 
-Expo provides a set of service named EAS (Expo Application Services), one of which is EAS Update which can host and serve updates for an Expo app using the [`expo-updates`](https://github.com/expo/expo/tree/main/packages/expo-updates) library.
-
-In some cases more control of how updates are sent to an app may be needed, and one option is to implement a custom updates server that adheres to the specification in order to serve update manifests and assets. This repo contains an example server implementation of the specification and a client app configured to use the example server.
+We need this selfhosted solution because EAS Pricing is expensive, and limited with Starter plan (3K MAUs)
 
 ## Getting started
 
@@ -95,14 +90,17 @@ Once you've made a change you're happy with, inside of **/expo-updates-server**,
 
 The S3-based V1 flow does **not** copy `dist/` into the server repo. Instead the app repo zips the export and uploads it to the server.
 
-1. Configure the client app:
-   - Set `expo.updates.url` in `expo-updates-client/app.json` to your server manifest endpoint (e.g. `https://your-server.com/api/<slug>/manifest`)
+1. Configure the client app (interactive):
+   - `cd expo-updates-client`
+   - `npx expo-updates-custom init`
+   - This updates `app.json` (`expo.updates.url`, channel headers, `expo.updates.codeSigningCertificate`), removes `expo.extra.eas`, stores push token, and prints the changes
+   - Run `npx expo prebuild` after init so native update config is refreshed
    - Ensure `expo.runtimeVersion` matches your native build’s runtime version
 2. Configure the server (S3 mode) and run it.
 3. From `expo-updates-client/`, run:
-   - `./scripts/push.sh --token "$UPLOAD_TOKEN" --channel main`
+   - `npx expo-updates-custom push`
 
-This script will derive the server origin from `expo.updates.url` and upload updates for both iOS and Android.
+This command derives server/slug/runtime from `app.json`, uses token + channel from `app.json`, and uploads updates for both iOS and Android.
 
 ### Publish an update (local artifact V1 flow)
 
@@ -114,7 +112,7 @@ This flow is the same as S3 publishing from the app repo, but the server stores 
    - `PUBLIC_BASE_URL=https://your-server.com`
 2. Start the server.
 3. From `expo-updates-client/`, run:
-   - `./scripts/push.sh --token "$UPLOAD_TOKEN" --channel main`
+   - `npx expo-updates-custom push`
 
 ### Send an update
 

@@ -1,0 +1,19 @@
+{
+  "name": "expo-updates-custom",
+  "version": "0.1.0",
+  "description": "CLI for configuring and publishing custom Expo OTA updates",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "expo-updates-custom": "./bin/expo-updates-custom.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "code-signing",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
